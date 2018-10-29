@@ -3,8 +3,8 @@
   "description": "Extension to test search via extension API",
   "displayName": "Search (test)",
   "version": "0.0.1",
-  "author": "vscode",
-  "publisher": "vscode",
+  "author": "roblourens",
+  "publisher": "roblourens",
   "license": "MIT",
   "aiKey": "AIF-d9b70cd4-b9f9-4d70-929b-a071c400b217",
   "engines": {
