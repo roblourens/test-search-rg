@@ -1,0 +1,35 @@
+{
+  "name": "test-search-rg",
+  "description": "Extension to test search via extension API",
+  "displayName": "Search (test)",
+  "version": "0.0.1",
+  "author": "vscode",
+  "publisher": "vscode",
+  "license": "MIT",
+  "aiKey": "AIF-d9b70cd4-b9f9-4d70-929b-a071c400b217",
+  "engines": {
+    "vscode": "^1.28.0"
+  },
+  "categories": [],
+  "dependencies": {
+    "vscode-ripgrep": "^1.2.2"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6",
+    "@types/node": "^7.0.43",
+    "@types/mocha": "^2.2.42"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "activationEvents": [
+    "onSearch:file",
+    "*"
+  ],
+  "main": "./out/extension"
+}
