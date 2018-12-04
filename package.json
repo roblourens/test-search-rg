@@ -2,7 +2,7 @@
   "name": "test-search-rg",
   "description": "Extension to test search via extension API",
   "displayName": "Search (test)",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "roblourens",
   "publisher": "roblourens",
   "license": "MIT",
@@ -10,7 +10,6 @@
   "engines": {
     "vscode": "^1.28.0"
   },
-  "enableProposedApi": true,
   "categories": [],
   "dependencies": {
     "vscode-cached-file-search-provider": "0.0.3",
