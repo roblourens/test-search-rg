@@ -7,15 +7,17 @@ import * as vscode from 'vscode';
 import { RipgrepFileSearchEngine } from './ripgrepFileSearch';
 import { RipgrepTextSearchEngine } from './ripgrepTextSearch';
 
+import { IInternalFileSearchProvider, CachedSearchProvider } from 'vscode-cached-file-search-provider';
+
 export function activate(): void {
 	const outputChannel = vscode.window.createOutputChannel('search-rg');
 
 	const provider = new RipgrepSearchProvider(outputChannel);
-	vscode.workspace.registerFileIndexProvider('file', provider);
+	vscode.workspace.registerFileSearchProvider('file', new CachedSearchProvider(provider));
 	vscode.workspace.registerTextSearchProvider('file', provider);
 }
 
-class RipgrepSearchProvider implements vscode.FileIndexProvider, vscode.TextSearchProvider {
+class RipgrepSearchProvider implements IInternalFileSearchProvider, vscode.TextSearchProvider {
 	private inProgress: Set<vscode.CancellationTokenSource> = new Set();
 
 	constructor(private outputChannel: vscode.OutputChannel) {
@@ -27,16 +29,9 @@ class RipgrepSearchProvider implements vscode.FileIndexProvider, vscode.TextSear
 		return this.withToken(token, token => engine.provideTextSearchResults(query, options, progress, token));
 	}
 
-	provideFileIndex(options: vscode.FileSearchOptions, token: vscode.CancellationToken): Thenable<vscode.Uri[]> {
+	provideFileSearchResults(options: vscode.FileSearchOptions, progress: vscode.Progress<string>, token: vscode.CancellationToken): Thenable<any> {
 		const engine = new RipgrepFileSearchEngine(this.outputChannel);
-
-		const results: vscode.Uri[] = [];
-		const onResult = (relativePathMatch: string) => {
-			results.push(vscode.Uri.file(options.folder.fsPath + '/' + relativePathMatch));
-		};
-
-		return this.withToken(token, token => engine.provideFileSearchResults(options, { report: onResult }, token))
-			.then(() => results);
+		return this.withToken(token, token => engine.provideFileSearchResults(options, progress, token)).then(() => ({ }));
 	}
 
 	private async withToken<T>(token: vscode.CancellationToken, fn: (token: vscode.CancellationToken) => Thenable<T>): Promise<T> {
