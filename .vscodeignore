@@ -1,6 +1,5 @@
-build/**
 src/**
 test/**
 tsconfig.json
-out/**
 package-lock.json
+out/**/*.map
